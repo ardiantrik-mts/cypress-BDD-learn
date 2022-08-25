@@ -23,3 +23,19 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+import LoginPage from "../pages/LoginPage";
+import InventoryPage from "../pages/InventoryPage";
+
+Cypress.Commands.add('loginSauceDemo', (username,password) => {
+    let loginPage = new LoginPage()
+    let inventoryPage = new InventoryPage()
+    
+    cy.visit('https://www.saucedemo.com/')
+    loginPage.textfieldUsername().type(username)
+    loginPage.textfieldPassword().type(password)
+    loginPage.buttonLogin().click().wait(1000)
+
+    //Assert
+    inventoryPage.containerInventoryList().should('be.visible')
+});
